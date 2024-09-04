@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<!--
+
+Welcome fellow seeker of knowledge,
+glad to see such an inquisitive mind. 
+We appreciate that. 
+
+Although we don't knwo what you expected to find in here. 
+Secrets? Answers? The Celestial Ruby? 
+Recipe for The Elixer? 
+
+You don't even know what you're looking for. 
+If you knew, you wouldn't be looking in here, 
+now would you?
+
+-->
+
+<head>
+	
+	<title>SirReldar's Earthquake Circle Manipulator</title>
+	<style>
+		:root{
+			--d0r: 0deg;
+			--d1r: 0deg;
+			--d2r: 0deg;
+			--d3r: 0deg;
+			--d4r: 0deg;
+		}
+		
+		.disks {
+			transform: scale(.6);
+			position: absolute;
+			top: 0px;
+			left: 0px;
+		}
+		.grid {
+		  transform: scale(1.30,1);
+		  position: absolute;
+		  z-index: 6;
+		  top: 640px;
+		  left: 865px;
+		}
+
+		.disk0 {
+		  position: absolute;
+		  z-index: 1;
+		  top: 0px;
+		  left: 0px;
+		  transition: all 0.3s ease;
+		  transform: rotate(var(--d0r));
+		}
+
+		.disk1 {
+		  position: absolute;
+		  z-index: 2;
+		  top: 0px;
+		  left: 0px;
+		  transition: all 0.3s ease;
+		  transform: rotate(var(--d1r));
+		}
+		.disk2 {
+		  position: absolute;
+		  z-index: 3;
+		  top: 0px;
+		  left: 0px;
+		  transition: all 0.3s ease;
+		  transform: rotate(var(--d2r));
+		}
+		.disk3 {
+		  position: absolute;
+		  z-index: 4;
+		  top: 0px;
+		  left: 0px;
+		  transition: all 0.3s ease;
+		  transform: rotate(var(--d3r));
+		}
+		.disk4 {
+		  position: absolute;
+		  z-index: 5;
+		  top: 0px;
+		  left: 0px;
+		  transition: all 0.3s ease;
+		  transform: rotate(var(--d4r));
+		}
+
+		.rotationButtons {
+			position: absolute;
+			top: 350px;
+			left: 800px;
+		}
+		.currentDisplay {
+			position: absolute;
+			top: 330px;
+			left: 1220px;
+			color: #A65C4B;
+			font-size: 800%;
+			font-family: "Noto Sans Mono", monospace;
+		}
+		.outputArrow {
+			position: absolute;
+			top: 325px;
+			left: 1150px;
+			color: #FFFFFF;
+			font-size: 800%;
+			font-family: "Noto Sans Mono", monospace;
+		}
+		.scrollableOutput{
+			position: absolute;
+			height:250px;
+			width:800px;
+			border:1px solid #ccc;
+			overflow:auto;
+			left: 825px;
+			top: 650px;
+			font-family: "Noto Sans Mono", monospace;
+			font-size: 200%;
+			color: #A65C4B;
+		}
+		.outputControls{
+			position: absolute;
+			left: 825px;
+			top: 615px;
+		}
+		.addOutputButton{
+			position: absolute;
+			height:150px;
+			width:150px;
+			left: 1350px;
+			top: 475px;
+		}
+		.label{
+			color: #A65C4B;
+			font-size: 150%;
+			transform: scale(1);
+		}
+		.creditsImg{
+			position: absolute;
+			top: 840px;
+			left: 25px;
+		}
+		.credits{
+			position: absolute;
+			color: #A65C4B;
+			font-size: 125%;
+			transform: scale(1);
+			top: 860px;
+			left: 125px;
+		}
+		
+		.resetButtons {
+			position: absolute;
+			top: 50px;
+			left: 825px;
+		}
+		
+		.squareButton{
+			width: 50px;
+			height: 50px;
+		}
+
+	</style>
+</head>
+<body style="background-color: #2F1D23; overflow-y: hidden;" onload="recalculateOutput()">
+
+	<!--
+	Disk sprites
+	-->
+	<div class="disks">
+	  <img class="disk0" src="./img/Noita_Ring1.png" />
+	  <img class="disk1" src="./img/Noita_Ring2.png" />
+	  <img class="disk2" src="./img/Noita_Ring3.png" />
+	  <img class="disk3" src="./img/Noita_Ring4.png" />
+	  <img class="disk4" src="./img/Noita_Ring5.png" />
+	  <img class="grid" src="./img/gridT.png" />
+	</div>
+
+	<!--
+	Reset Buttons
+	-->
+	<div class="resetButtons">
+		<button id="loadButton" type="button" onclick="load()" title="Restore a saved position. Useful if you want to use a different starting position."><font size="5">Restore</font></button>
+		<button id="saveButton" type="button" onclick="save()" title="Save the current ring positions. Useful if you want to use a different starting position."><font size="5">Save</font></button>
+		<button id="resetButton" type="button" onclick="resetAll()" title="Reset the rings to their initial positions and clear your saved position."><font size="5">Reset</font></button>
+		<br><br>
+		<div class="label" title="Some people think the glyphs represent open/closed eyes instead of 1s and 0s. If you would rather interpret them that way, this setting will do that. It effectively applies a NOT gate to the binary. It has no effect on the alphabetic rings."><input id="readAsEyes" type="checkbox" onclick="recalculateOutput()" style="transform: scale(1.5)"> Read as eyes instead of binary</div>
+		<br><br>
+		<div class="label" title="This setting reverses the reading order and reads from the edge to the center, instead of from the center to the edge."><input id="readFromEdge" type="checkbox" onclick="recalculateOutput()" style="transform: scale(1.5)"> Read from edge instead of from center</div>
+		<br><br>
+		<div class="label" title="The arrow behavior might feel backwards to you if you visualize things differently. For example by default, up means 'rotate the ring upwards' but if you instead think it means 'get the next glyph thats above' then it could feel wrong to you. This setting inverts the arrow behavior, but has no effect on the output."><input id="invertArrows" type="checkbox" style="transform: scale(1.5)"> Invert arrow behavior</div>
+	</div>
+	
+
+	<!--
+	Rotation Buttons
+	-->
+	<div class="rotationButtons">
+		
+		<table style="text-align:center;">
+			<tr>
+				<td style="width: 100px;"><button id="d4u" class="squareButton" type="button"><font size="5">↑</font></button></td>
+				<td><button id="d3u" class="squareButton" type="button"><font size="5">↑</font></button></td>
+				<td><button id="d2u" class="squareButton" type="button"><font size="5">↑</font></button></td>
+				<td><button id="d1u" class="squareButton" type="button"><font size="5">↑</font></button></td>
+				<td style="width: 100px;"><button id="d0u" class="squareButton" type="button"><font size="5">↑</font></button></td>
+			</tr>
+			
+			<tr>
+				<td><button id="d4d" class="squareButton" type="button"><font size="5">↓</font></button></td>
+				<td><button id="d3d" class="squareButton" type="button"><font size="5">↓</font></button></td>
+				<td><button id="d2d" class="squareButton" type="button"><font size="5">↓</font></button></td>
+				<td><button id="d1d" class="squareButton" type="button"><font size="5">↓</font></button></td>
+				<td><button id="d0d" class="squareButton" type="button"><font size="5">↓</font></button></td>
+			
+			</tr>
+			<tr>
+				<td><input id="d4include" type="checkbox" onclick="recalculateOutput()" checked></td>
+				<td><input id="d3include" type="checkbox" onclick="recalculateOutput()" checked></td>
+				<td><input id="d2include" type="checkbox" onclick="recalculateOutput()" checked></td>
+				<td><input id="d1include" type="checkbox" onclick="recalculateOutput()" checked></td>
+				<td><input id="d0include" type="checkbox" onclick="recalculateOutput()" checked></td>
+			</tr>
+		</table>
+	</div>
+	
+	<!--
+	Output Arrow
+	-->
+	<div class="outputArrow">
+		<text color="white">></text>
+	</div>
+	
+	<!--
+	Current Display
+	-->
+	<div class="currentDisplay">
+		<text id="currentDisplayText">M000M</text>
+	</div>
+	
+	<!--
+	Output
+	-->
+	<div id="scrollableOutput" class="scrollableOutput"></div>
+	
+	<!--
+	Add Output Button
+	-->
+	<button id="addOutputButton" class="addOutputButton" type="button" onclick="addOutput()" title="Concatonate the displayed value to the running output"><font size="16" style="transform: scale(1.5)"><b>↓</b></font></button>
+	
+	
+	<!--
+	Output controls
+	-->
+	<div class="outputControls">
+		<text class="label" title="An optional separator value to separate items in the output">Separator (\n = newline): </text>
+		<input id= "outputSeparator" type="text" size="3" title="An optional separator value to separate items in the output"></input>
+		&emsp;&emsp;&emsp;
+		<button type="button" onclick="copyOutput()">Copy</button>
+		&emsp;
+		<button type="button" onclick="clearOutput()">Clear</button>
+	</div>
+	
+	
+	<!--
+	Output controls
+	-->
+	<a class="creditsImg" target="_blank" href="https://www.twitch.tv/sirreldar"><img src="./img/bossWitch112.png" width="75" height="75"></a>
+	<div class = "credits">
+	    
+		For questions/requests/bugs please message @SirReldar on Discord <br>
+		Or, come visit me while I'm streaming on <a target="_blank" href="https://www.twitch.tv/sirreldar">Twitch</a>
+	</div>
+	
+<script src="./script.js"></script> 
+</body>
+
+</html>
