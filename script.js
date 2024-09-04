@@ -125,6 +125,7 @@ function addOutput(){
 	}
 	
 	document.getElementById("scrollableOutput").innerHTML = currentOutput;
+	document.getElementById("scrollableOutput").scrollTop = document.getElementById("scrollableOutput").scrollHeight;
 }
 
 
