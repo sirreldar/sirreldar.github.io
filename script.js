@@ -41,7 +41,9 @@ document.documentElement.style.setProperty('--d3r', '0');
 document.documentElement.style.setProperty('--d4r', '0');
 
 //add rotation button listeners
+
 //up buttons
+document.getElementById("adu").addEventListener("click", function() {rotateAll(-1)}, false);
 document.getElementById("d0u").addEventListener("click", function() {rotateDisk(0,-1)}, false);
 document.getElementById("d1u").addEventListener("click", function() {rotateDisk(1,-1)}, false);
 document.getElementById("d2u").addEventListener("click", function() {rotateDisk(2,-1)}, false);
@@ -49,6 +51,7 @@ document.getElementById("d3u").addEventListener("click", function() {rotateDisk(
 document.getElementById("d4u").addEventListener("click", function() {rotateDisk(4,-1)}, false);
 
 //down buttons
+document.getElementById("add").addEventListener("click", function() {rotateAll(1)}, false);
 document.getElementById("d0d").addEventListener("click", function() {rotateDisk(0,1)}, false);
 document.getElementById("d1d").addEventListener("click", function() {rotateDisk(1,1)}, false);
 document.getElementById("d2d").addEventListener("click", function() {rotateDisk(2,1)}, false);
@@ -56,7 +59,13 @@ document.getElementById("d3d").addEventListener("click", function() {rotateDisk(
 document.getElementById("d4d").addEventListener("click", function() {rotateDisk(4,1)}, false);
 
 
-
+function rotateAll(amount){
+	rotateDisk(0,amount);
+	rotateDisk(1,amount);
+	rotateDisk(2,amount);
+	rotateDisk(3,amount);
+	rotateDisk(4,amount);
+}
 
 
 function setDisk(d, position){

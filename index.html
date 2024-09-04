@@ -86,7 +86,7 @@ now would you?
 
 		.rotationButtons {
 			position: absolute;
-			top: 350px;
+			top: 318px;
 			left: 800px;
 		}
 		.currentDisplay {
@@ -158,6 +158,14 @@ now would you?
 			width: 50px;
 			height: 50px;
 		}
+		.longButton{
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			width: 320px;
+			height: 25px;
+			text-align: center;
+		}
 
 	</style>
 </head>
@@ -195,7 +203,7 @@ now would you?
 	Rotation Buttons
 	-->
 	<div class="rotationButtons">
-		
+		<button id="adu" style="text-align:center;" class="longButton" type="button"><font size="3">↑  ↑ ↑ ↑  ↑</font></button>
 		<table style="text-align:center;">
 			<tr>
 				<td style="width: 100px;"><button id="d4u" class="squareButton" type="button"><font size="5">↑</font></button></td>
@@ -206,6 +214,14 @@ now would you?
 			</tr>
 			
 			<tr>
+				<td><input id="d4include" type="checkbox" onclick="recalculateOutput()" checked></td>
+				<td><input id="d3include" type="checkbox" onclick="recalculateOutput()" checked></td>
+				<td><input id="d2include" type="checkbox" onclick="recalculateOutput()" checked></td>
+				<td><input id="d1include" type="checkbox" onclick="recalculateOutput()" checked></td>
+				<td><input id="d0include" type="checkbox" onclick="recalculateOutput()" checked></td>
+			</tr>
+			
+			<tr>
 				<td><button id="d4d" class="squareButton" type="button"><font size="5">↓</font></button></td>
 				<td><button id="d3d" class="squareButton" type="button"><font size="5">↓</font></button></td>
 				<td><button id="d2d" class="squareButton" type="button"><font size="5">↓</font></button></td>
@@ -213,14 +229,9 @@ now would you?
 				<td><button id="d0d" class="squareButton" type="button"><font size="5">↓</font></button></td>
 			
 			</tr>
-			<tr>
-				<td><input id="d4include" type="checkbox" onclick="recalculateOutput()" checked></td>
-				<td><input id="d3include" type="checkbox" onclick="recalculateOutput()" checked></td>
-				<td><input id="d2include" type="checkbox" onclick="recalculateOutput()" checked></td>
-				<td><input id="d1include" type="checkbox" onclick="recalculateOutput()" checked></td>
-				<td><input id="d0include" type="checkbox" onclick="recalculateOutput()" checked></td>
-			</tr>
+			
 		</table>
+		<button id="add" style="text-align:center;" class="longButton" type="button"><font size="3">↓  ↓ ↓ ↓  ↓</font></button>
 	</div>
 	
 	<!--
