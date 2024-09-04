@@ -140,6 +140,8 @@ function copyOutput(){
 
 
 function load(){
+	if (getCookie("pos0") == "") {return null;}
+	
 	disk[0].wraps = parseInt(getCookie("wraps0"));
 	disk[1].wraps = parseInt(getCookie("wraps1"));
 	disk[2].wraps = parseInt(getCookie("wraps2"));
@@ -185,6 +187,7 @@ function save(){
 function getCookie(cname) {
   let name = cname + "=";
   let ca = document.cookie.split(';');
+  
   for(let i = 0; i < ca.length; i++) {
     let c = ca[i];
     while (c.charAt(0) == ' ') {
